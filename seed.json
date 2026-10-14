@@ -1,0 +1,144 @@
+{
+  "app": "book-notes-vault",
+  "version": 1,
+  "records": [
+    {
+      "id": "book_0001",
+      "title": "The Hobbit",
+      "author": "J. R. R. Tolkien",
+      "pages": 310,
+      "tag": "Fantasy",
+      "dateAdded": "2025-09-02",
+      "relativeDay": 0,
+      "isbn": "978-0-261-10221-4",
+      "createdAt": "2025-09-02T09:00:00.000Z",
+      "updatedAt": "2025-09-02T09:00:00.000Z"
+    },
+    {
+      "id": "book_0002",
+      "title": "Clean Code",
+      "author": "Robert C. Martin",
+      "pages": 464,
+      "tag": "Tech",
+      "dateAdded": "2025-09-04",
+      "relativeDay": 1,
+      "isbn": "9780132350884",
+      "createdAt": "2025-09-04T09:00:00.000Z",
+      "updatedAt": "2025-09-04T09:00:00.000Z"
+    },
+    {
+      "id": "book_0003",
+      "title": "A Short History of Nearly Everything",
+      "author": "Bill Bryson",
+      "pages": 544,
+      "tag": "Science",
+      "dateAdded": "2024-02-29",
+      "isbn": "9780767908184",
+      "createdAt": "2024-02-29T10:15:00.000Z",
+      "updatedAt": "2024-02-29T10:15:00.000Z"
+    },
+    {
+      "id": "book_0004",
+      "title": "Notes on the the Cinematograph",
+      "author": "Sergei Eisenstein",
+      "pages": 68,
+      "tag": "Film Studies",
+      "dateAdded": "2025-09-06",
+      "relativeDay": 2,
+      "isbn": "",
+      "createdAt": "2025-09-06T08:30:00.000Z",
+      "updatedAt": "2025-09-06T08:30:00.000Z"
+    },
+    {
+      "id": "book_0005",
+      "title": "Gödel, Escher, Bach",
+      "author": "Douglas R. Hofstadter",
+      "pages": 777,
+      "tag": "Science",
+      "dateAdded": "2025-09-07",
+      "isbn": "9780465026562",
+      "createdAt": "2025-09-07T14:05:00.000Z",
+      "updatedAt": "2025-09-07T14:05:00.000Z"
+    },
+    {
+      "id": "book_0006",
+      "title": "The Design of Everyday Things",
+      "author": "Don Norman",
+      "pages": 368,
+      "tag": "Design",
+      "dateAdded": "2025-09-08",
+      "relativeDay": 3,
+      "isbn": "9780465050659",
+      "createdAt": "2025-09-08T11:45:00.000Z",
+      "updatedAt": "2025-09-08T11:45:00.000Z"
+    },
+    {
+      "id": "book_0007",
+      "title": "Silent Spring",
+      "author": "Rachel Carson",
+      "pages": 400,
+      "tag": "Science",
+      "dateAdded": "2025-12-31",
+      "isbn": "9780618249060",
+      "createdAt": "2025-12-31T19:20:00.000Z",
+      "updatedAt": "2025-12-31T19:20:00.000Z"
+    },
+    {
+      "id": "book_0008",
+      "title": "Rhythms & Ruins",
+      "author": "Mina O'Connell",
+      "pages": 0,
+      "tag": "Art History",
+      "dateAdded": "2025-09-09",
+      "relativeDay": 6,
+      "isbn": "",
+      "createdAt": "2025-09-09T07:00:00.000Z",
+      "updatedAt": "2025-09-09T07:00:00.000Z"
+    },
+    {
+      "id": "book_0009",
+      "title": "The Mythical Man-Month",
+      "author": "Frederick P. Brooks",
+      "pages": 322,
+      "tag": "Tech",
+      "dateAdded": "2025-09-10",
+      "relativeDay": 5,
+      "isbn": "9780201835953",
+      "createdAt": "2025-09-10T16:40:00.000Z",
+      "updatedAt": "2025-09-10T16:40:00.000Z"
+    },
+    {
+      "id": "book_0010",
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "pages": 499,
+      "tag": "Psychology",
+      "dateAdded": "2025-09-11",
+      "isbn": "9780374533557",
+      "createdAt": "2025-09-11T13:10:00.000Z",
+      "updatedAt": "2025-09-11T13:10:00.000Z"
+    },
+    {
+      "id": "book_0011",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "pages": 443,
+      "tag": "History",
+      "dateAdded": "2025-09-12",
+      "isbn": "9780062316097",
+      "createdAt": "2025-09-12T10:00:00.000Z",
+      "updatedAt": "2025-09-12T10:00:00.000Z"
+    },
+    {
+      "id": "book_0012",
+      "title": "X+Y=Z",
+      "author": "K. Ito",
+      "pages": 128,
+      "tag": "Maths",
+      "dateAdded": "2025-09-13",
+      "isbn": "978-3-16-148410-0",
+      "createdAt": "2025-09-13T12:25:00.000Z",
+      "updatedAt": "2025-09-13T12:25:00.000Z"
+    }
+  ]
+}

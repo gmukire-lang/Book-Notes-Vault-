@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vault tests</title>
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="site-header">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">VT</span>
+        <div>
+          <p class="brand-name">Book &amp; Notes Vault tests</p>
+          <p class="brand-tagline">Regex validators, search compiler and import validation</p>
+        </div>
+      </div>
+      <nav class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Back to the app</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <h1>Test results</h1>
+      <p class="section-lead">Open this file through a local server (see README) and every assertion runs in the browser console as well as below.</p>
+      <p class="result-status" id="summary" role="status" aria-live="polite"></p>
+      <ul id="results"></ul>
+    </main>
+  </div>
+
+  <script type="module">
+    import { compileSearch, countMatches, highlightInto, recordMatches } from './scripts/search.js';
+    import { parseImportFile } from './scripts/storage.js';
+    import {
+      cleanText,
+      findRepeatedWord,
+      isRealDate,
+      validateAuthor,
+      validateDate,
+      validateIsbn,
+      validatePages,
+      validateRecordShape,
+      validateTag,
+      validateTitle
+    } from './scripts/validators.js';
+
+    const results = document.getElementById('results');
+    const summary = document.getElementById('summary');
+    let passed = 0;
+    let failed = 0;
+
+    function check(name, actual, expected) {
+      const isPass = Object.is(actual, expected);
+      if (isPass) {
+        passed += 1;
+      } else {
+        failed += 1;
+      }
+      const item = document.createElement('li');
+      item.className = 'record-card';
+      const heading = document.createElement('h3');
+      heading.textContent = `${isPass ? 'PASS' : 'FAIL'} — ${name}`;
+      const detail = document.createElement('p');
+      detail.className = 'stat-note';
+      detail.textContent = `expected: ${JSON.stringify(expected)} · received: ${JSON.stringify(actual)}`;
+      item.append(heading, detail);
+      results.append(item);
+      console.log(isPass ? 'PASS' : 'FAIL', name, { expected, actual });
+    }
+
+    check('title rejects a leading space', validateTitle(' The Hobbit').valid, false);
+    check('title rejects a trailing space', validateTitle('The Hobbit ').valid, false);
+    check('title rejects a double space', validateTitle('The  Hobbit').valid, false);
+    check('title accepts normal text', validateTitle('The Hobbit').valid, true);
+    check('title accepts one character', validateTitle('X').valid, true);
+    check('title warns about a repeated word', validateTitle('Notes on the the page').warning.includes('the'), true);
+    check('findRepeatedWord finds the word', findRepeatedWord('Smith Smith wrote'), 'Smith');
+    check('findRepeatedWord ignores distinct words', findRepeatedWord('Smith Jones wrote'), '');
+    check('cleanText collapses and trims', cleanText('  A   B  '), 'A B');
+
+    check('author accepts initials and dots', validateAuthor('J. R. R. Tolkien').valid, true);
+    check('author accepts apostrophes', validateAuthor("Mina O'Connell").valid, true);
+    check('author rejects digits', validateAuthor('Author 2').valid, false);
+    check('author rejects a trailing space', validateAuthor('Ursula K. Le Guin ').valid, false);
+
+    check('pages accepts 0', validatePages('0').valid, true);
+    check('pages accepts 310', validatePages('310').valid, true);
+    check('pages rejects a decimal', validatePages('310.5').valid, false);
+    check('pages rejects a leading zero', validatePages('0310').valid, false);
+    check('pages rejects letters', validatePages('many').valid, false);
+    check('pages rejects an empty value', validatePages('').valid, false);
+    check('pages rejects more than 99999', validatePages('100000').valid, false);
+
+    check('tag accepts a hyphen', validateTag('Sci-Fi').valid, true);
+    check('tag accepts spaced words', validateTag('Film Studies').valid, true);
+    check('tag rejects digits', validateTag('Term 2').valid, false);
+    check('tag rejects a double hyphen', validateTag('Sci--Fi').valid, false);
+
+    check('date accepts a valid date', validateDate('2025-09-29').valid, true);
+    check('date rejects month 13', validateDate('2025-13-01').valid, false);
+    check('date rejects day 32', validateDate('2025-09-32').valid, false);
+    check('date rejects 31 February', validateDate('2025-02-31').valid, false);
+    check('isRealDate accepts a leap day', isRealDate('2024-02-29'), true);
+    check('isRealDate rejects a fake leap day', isRealDate('2025-02-29'), false);
+    check('date rejects the wrong format', validateDate('29/09/2025').valid, false);
+
+    check('isbn accepts an empty optional value', validateIsbn('').valid, true);
+    check('isbn accepts 13 digits', validateIsbn('9780132350884').valid, true);
+    check('isbn accepts hyphens', validateIsbn('978-0-13-235088-4').valid, true);
+    check('isbn accepts an ISBN-10', validateIsbn('0306406152').valid, true);
+    check('isbn rejects a wrong length', validateIsbn('12345').valid, false);
+
+    const compiled = compileSearch('(\\w+)\\s+\\1', true);
+    check('compiler accepts a back-reference', compiled.error, '');
+    check('compiler returns a regex', compiled.regex instanceof RegExp, true);
+    check('compiler rejects a broken pattern', compileSearch('(unclosed', true).error !== '', true);
+    check('compiler treats blank input as no regex', compileSearch('   ', true).regex, null);
+
+    const repeated = compileSearch('(\\w+)\\s+\\1', true).regex;
+    check('record with a repeated word matches', recordMatches({ title: 'Notes on the the page' }, repeated), true);
+    check('record without a repeated word does not match', recordMatches({ title: 'Clean Code' }, repeated), false);
+    check('match counter finds one match', countMatches({ title: 'Notes on the the page' }, repeated), 1);
+
+    const isbnRegex = compileSearch('97[89](?:-?\\d){10}', false).regex;
+    check('isbn pattern matches the pages field too', recordMatches({ title: 'X', author: 'Y', tag: 'Z', pages: '9780132350884', dateAdded: '2025-01-01' }, isbnRegex), true);
+    check('search does not join two fields', recordMatches({ title: 'Book', author: 'book writer', tag: '', pages: 10, dateAdded: '2025-01-01' }, compileSearch('book\\s+book', true).regex), false);
+    check('empty fields never match', recordMatches({ title: 'Zebra', author: '', tag: '', pages: 0, dateAdded: '' }, compileSearch('^(?!.*[aeiouAEIOU])[A-Za-z .\'-]+$', true).regex), false);
+    check('consonant only title matches', recordMatches({ title: 'X Y Z', author: '', tag: '', pages: 0, dateAdded: '' }, compileSearch('^(?!.*[aeiouAEIOU])[A-Za-z .\'-]+$', true).regex), true);
+
+    const scratch = document.createElement('span');
+    const matches = highlightInto(scratch, 'Notes on the the page', repeated);
+    check('highlighter counts matches', matches, 1);
+    check('highlighter wraps matches in mark', scratch.querySelectorAll('mark').length, 1);
+    check('highlighter never injects markup', scratch.innerHTML.includes('<script'), false);
+    check('highlighter keeps the whole text', scratch.textContent, 'Notes on the the page');
+    highlightInto(scratch, 'Plain text', null);
+    check('highlighter without a regex keeps text', scratch.textContent, 'Plain text');
+
+    const goodRecord = {
+      id: 'book_0001',
+      title: 'The Hobbit',
+      author: 'J. R. R. Tolkien',
+      pages: 310,
+      tag: 'Fantasy',
+      dateAdded: '2025-09-02',
+      isbn: '',
+      createdAt: '2025-09-02T09:00:00.000Z',
+      updatedAt: '2025-09-02T09:00:00.000Z'
+    };
+    check('record shape accepts a good record', validateRecordShape(goodRecord), '');
+    check('record shape rejects a missing id', validateRecordShape({ ...goodRecord, id: '' }) !== '', true);
+    check('record shape rejects text pages', validateRecordShape({ ...goodRecord, pages: '310' }) !== '', true);
+    check('record shape rejects a bad tag', validateRecordShape({ ...goodRecord, tag: 'Sci--Fi' }) !== '', true);
+    check('record shape rejects an array', validateRecordShape([]) !== '', true);
+
+    check('import accepts a bare array', parseImportFile(JSON.stringify([goodRecord])).records.length, 1);
+    check('import accepts an export payload', parseImportFile(JSON.stringify({ records: [goodRecord] })).records.length, 1);
+    check('import fills missing timestamps', parseImportFile(JSON.stringify([{ ...goodRecord, createdAt: '' }])).records[0].createdAt !== '', true);
+    check('import rejects broken json', parseImportFile('{oops').ok, false);
+    check('import rejects an empty array', parseImportFile('[]').ok, false);
+    check('import skips bad entries only', parseImportFile(JSON.stringify([goodRecord, { id: 'x' }])).records.length, 1);
+    check('import reports the bad entry', parseImportFile(JSON.stringify([goodRecord, { id: 'x' }])).problems.length, 1);
+
+    summary.textContent = `${passed} passed, ${failed} failed, ${passed + failed} checks total.`;
+    console.log(`${passed} passed, ${failed} failed`);
+  </script>
+</body>
+</html>
