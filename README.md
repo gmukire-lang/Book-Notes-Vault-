@@ -4,7 +4,7 @@ A small, offline-first catalog for the books you are working through: title, aut
 regex search that highlights what it finds, reading statistics, and JSON import/export. No frameworks, no build step,
 no server. Plain HTML, CSS and JavaScript (ES modules).
 
-- **Live demo (GitHub Pages):** `https://gmukire-lang.github.io/Book-Notes-Vault-/`
+- **Live demo (GitHub Pages):** https://gmukire-lang.github.io/Book-Notes-Vault-/
 - **Theme chosen:** Book & Notes Vault (catalog, pages, tags, search)
 - **Stack:** vanilla HTML5 + CSS3 + Javascript, `localStorage`
 
@@ -132,26 +132,34 @@ Nothing needs a mouse. Focus never gets trapped, and the skip link (`Skip to mai
 ## 7. Project structure
 
 ```
-index.html          dashboard page
-vault.html          book catalog, search and sorting
-add-book.html       add-book form
-settings.html       preferences and data tools
-about.html          project and contact information
-tests.html          assertion page for the validators, the search compiler and import validation
-seed.json           12 sample records
-styles/
-  base.css          design tokens, typography, focus styles, dark theme
-  layout.css        app shell, grids, the 480 / 768 / 1024 breakpoints
-  components.css    buttons, table, cards, chart, meter, marks, animations
-scripts/
-  validators.js     every regex rule and the record shape check
-  search.js         safe regex compiler, per-field matching, safe highlighting
-  storage.js        localStorage load/save, import validation, JSON export
-  state.js          in-memory records, settings and filters, change notification
-  ui.js             all DOM rendering (stats, chart, table, cards, inline editor)
-  app.js            routing, event wiring, form handling, actions
-assets/
-  favicon.svg
+Book-Notes-Vault/
+├── index.html                  # Dashboard, statistics, and recent activity
+├── vault.html                  # Book catalog, search, sorting, and filtering
+├── add-book.html               # Add-book form and validation feedback
+├── settings.html               # Preferences, import, export, and data tools
+├── about.html                  # Project information and contact details
+├── tests.html                  # Browser-based validation and search tests
+│
+├── seed.json                   # 12 sample book records
+│
+├── styles/
+│   ├── base.css                # Design tokens, typography, focus, dark theme
+│   ├── layout.css              # App shell, grids, responsive breakpoints
+│   └── components.css          # Buttons, tables, cards, charts, meters, motion
+│
+├── scripts/
+│   ├── validators.js           # Regex rules, input validation, record schema
+│   ├── search.js               # Safe regex compiler, matching, highlighting
+│   ├── storage.js              # localStorage, import validation, JSON export
+│   ├── state.js                # Records, settings, filters, state notifications
+│   ├── ui.js                   # DOM rendering, charts, tables, cards, inline edits
+│   └── app.js                  # Initialization, events, forms, navigation, actions
+│
+├── assets/
+│   └── favicon.svg             # Application favicon
+│
+├── .gitignore                  # Ignore local and generated files
+└── README.md                   # Setup, features, usage, and project overview
 ```
 
 Modules only depend downwards: `app.js` → `state.js` → `ui.js` / `storage.js` → `search.js` → `validators.js`.
