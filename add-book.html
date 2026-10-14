@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Add a book to your personal reading vault.">
+  <title>Add a book · Book &amp; Notes Vault</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="app-shell">
+    <header class="site-header site-header--app">
+      <div class="brand"><p class="brand-name">Book &amp; Notes Vault</p></div>
+      <button type="button" id="mobile-nav-toggle" class="mobile-nav-toggle ghost-button"
+        aria-controls="site-nav" aria-expanded="false" aria-label="Open navigation">
+        <span aria-hidden="true"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="vault.html">Vault</a></li>
+          <li><a href="add-book.html" aria-current="page">Add</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-backdrop" aria-hidden="true"></div>
+      <button type="button" id="theme-toggle" class="ghost-button" aria-pressed="false"
+        aria-label="Switch to dark mode">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-label">Dark mode</span>
+      </button>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="panel" aria-labelledby="add-title">
+        <h1 id="add-title">Add a book</h1>
+        <p class="section-lead">Fields are checked with regular expressions as you type. Fix the highlighted fields and the record saves.</p>
+        <form id="book-form" novalidate>
+          <div class="form-grid">
+            <div class="form-field">
+              <label for="title-input">Title <span class="required">(required)</span></label>
+              <input type="text" id="title-input" name="title" autocomplete="off" aria-describedby="title-error">
+              <p class="field-error" id="title-error" role="alert" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="author-input">Author <span class="required">(required)</span></label>
+              <input type="text" id="author-input" name="author" autocomplete="off" aria-describedby="author-error">
+              <p class="field-error" id="author-error" role="alert" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="pages-input">Pages <span class="required">(required)</span></label>
+              <input type="number" id="pages-input" name="pages" min="0" max="99999" step="1" inputmode="numeric"
+                aria-describedby="pages-error pages-hint">
+              <p class="hint" id="pages-hint">Whole number only, 0 to 99999. No decimals, no letters.</p>
+              <p class="field-error" id="pages-error" role="alert" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="tag-input">Tag <span class="required">(required)</span></label>
+              <input type="text" id="tag-input" name="tag" autocomplete="off" aria-describedby="tag-error"
+                list="tag-suggestions">
+              <datalist id="tag-suggestions"></datalist>
+              <p class="field-error" id="tag-error" role="alert" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="date-input">Date added <span class="required">(required)</span></label>
+              <input type="date" id="date-input" name="dateAdded" aria-describedby="date-error">
+              <p class="field-error" id="date-error" role="alert" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="isbn-input">ISBN <span class="optional">(optional)</span></label>
+              <input type="text" id="isbn-input" name="isbn" autocomplete="off" aria-describedby="isbn-error">
+              <p class="field-error" id="isbn-error" role="alert" hidden></p>
+            </div>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="primary-button">Add to vault</button>
+            <button type="reset" class="ghost-button">Clear form</button>
+          </div>
+          <p class="hint">Clearing the form also resets it to today's date.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>A product of <a href="https://github.com/gmukire-lang" target="_blank" rel="noopener noreferrer">Grace Mukire</a></p>
+    </footer>
+  </div>
+  <div class="visually-hidden" id="polite-region" role="status" aria-live="polite"></div>
+  <div class="visually-hidden" id="assertive-region" role="alert" aria-live="assertive"></div>
+  <noscript><p class="noscript-note">This vault needs JavaScript enabled to store and search books.</p></noscript>
+  <script type="module" src="scripts/app.js"></script>
+</body>
+</html>

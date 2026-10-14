@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A quick view of your books, reading progress and recent pages added.">
+  <title>Dashboard · Book &amp; Notes Vault</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="app-shell">
+    <header class="site-header site-header--app">
+      <div class="brand"><p class="brand-name">Book &amp; Notes Vault</p></div>
+      <button type="button" id="mobile-nav-toggle" class="mobile-nav-toggle ghost-button"
+        aria-controls="site-nav" aria-expanded="false" aria-label="Open navigation">
+        <span aria-hidden="true"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html" aria-current="page">Dashboard</a></li>
+          <li><a href="vault.html">Vault</a></li>
+          <li><a href="add-book.html">Add</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-backdrop" aria-hidden="true"></div>
+      <button type="button" id="theme-toggle" class="ghost-button" aria-pressed="false"
+        aria-label="Switch to dark mode">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-label">Dark mode</span>
+      </button>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="panel" aria-labelledby="dashboard-title" tabindex="-1">
+        <h1 id="dashboard-title">Dashboard</h1>
+        <p class="section-lead">A quick read on what is in the vault right now.</p>
+        <div class="stat-grid" id="stat-grid"></div>
+        <section class="cap-card" aria-labelledby="cap-title">
+          <h2 id="cap-title">Monthly page target</h2>
+          <p id="cap-message" role="status" aria-live="polite">Loading target…</p>
+          <div class="meter" id="cap-meter" role="img" aria-label="Monthly page target progress">
+            <div class="meter-fill" id="cap-meter-fill"></div>
+          </div>
+          <p class="hint">Change the target any time in <a href="settings.html">Settings</a>.</p>
+        </section>
+        <section class="chart-card" aria-labelledby="chart-title">
+          <h2 id="chart-title">Pages added in the last 7 days</h2>
+          <ul class="bar-chart" id="bar-chart"></ul>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>A product of <a href="https://github.com/gmukire-lang" target="_blank" rel="noopener noreferrer">Grace Mukire</a></p>
+    </footer>
+  </div>
+  <div class="visually-hidden" id="polite-region" role="status" aria-live="polite"></div>
+  <div class="visually-hidden" id="assertive-region" role="alert" aria-live="assertive"></div>
+  <noscript><p class="noscript-note">This vault needs JavaScript enabled to store and search books.</p></noscript>
+  <script type="module" src="scripts/app.js"></script>
+</body>
+</html>

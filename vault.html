@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Search, sort and manage the books in your vault.">
+  <title>Vault · Book &amp; Notes Vault</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="app-shell">
+    <header class="site-header site-header--app">
+      <div class="brand">
+        <p class="brand-name">Book &amp; Notes Vault</p>
+      </div>
+      <button type="button" id="mobile-nav-toggle" class="mobile-nav-toggle ghost-button" aria-controls="site-nav"
+        aria-expanded="false" aria-label="Open navigation">
+        <span aria-hidden="true"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="vault.html" aria-current="page">Vault</a></li>
+          <li><a href="add-book.html">Add</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-backdrop" aria-hidden="true"></div>
+      <button type="button" id="theme-toggle" class="ghost-button" aria-pressed="false"
+        aria-label="Switch to dark mode">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-label">Dark mode</span>
+      </button>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="panel" aria-labelledby="vault-title">
+        <h1 id="vault-title">Vault</h1>
+        <p class="section-lead">Every book you have catalogued. Sort it, then search it with your own regular
+          expressions.</p>
+
+        <div class="toolbar">
+          <div class="toolbar-field search-field">
+            <label for="search-input">Search</label>
+            <input type="search" id="search-input" placeholder="try: (\w+)\s+\1"
+              aria-describedby="search-help search-status" spellcheck="false" autocomplete="off">
+            <!-- <p class="hint" id="search-help">Type a JavaScript regular expression. It runs against title, author, tag, pages and date.</p> -->
+            <p class="field-error" id="search-error" role="alert" hidden></p>
+            <div class="toolbar-field">
+              <label for="sort-select">Sort by</label>
+              <select id="sort-select">
+                <option value="dateAdded-desc">Date added (newest)</option>
+                <option value="dateAdded-asc">Date added (oldest)</option>
+                <option value="title-asc">Title (A to Z)</option>
+                <option value="title-desc">Title (Z to A)</option>
+                <option value="pages-desc">Pages (most)</option>
+                <option value="pages-asc">Pages (fewest)</option>
+                <option value="author-asc">Author (A to Z)</option>
+                <option value="tag-asc">Tag (A to Z)</option>
+              </select>
+            </div>
+          </div>
+          <div class="toolbar-options">
+            <div class="checkbox-field">
+              <input type="checkbox" id="case-toggle">
+              <label for="case-toggle">Ignore case</label>
+            </div>
+            <div class="toolbar-field">
+              <label for="tag-filter">Filter by tag</label>
+              <select id="tag-filter">
+                <option value="">All tags</option>
+              </select>
+            </div>
+            <!--  -->
+          </div>
+        </div>
+
+        <div class="preset-row">
+          <span class="preset-label" id="preset-label">Quick patterns</span>
+          <div class="preset-buttons" role="group" aria-labelledby="preset-label">
+            <button type="button" class="preset-button"
+              data-pattern="97[89](?:-?\d){10}|\d(?:-?\d){8}[\dXx]">ISBN</button>
+            <button type="button" class="preset-button" data-pattern="(\w+)\s+\1">Repeated word</button>
+            <button type="button" class="preset-button" data-pattern="\b[3-9]\d{2}\b">300+ pages</button>
+            <button type="button" class="preset-button" data-pattern="^(?!.*[aeiouAEIOU])[A-Za-z .'-]+$">No
+              vowels</button>
+            <button type="button" class="preset-button" data-pattern="^(?=.*\d{4})(?=.*[A-Z])">Has year +
+              capital</button>
+            <button type="button" class="preset-button" data-pattern="">Clear</button>
+          </div>
+        </div>
+        <p class="result-status" id="search-status" role="status" aria-live="polite"></p>
+
+        <div class="records-table-wrap">
+          <table class="records-table">
+            <caption class="visually-hidden">Books in the vault. Use the column header buttons to sort.</caption>
+            <thead>
+              <tr>
+                <th scope="col" data-sort-key="title" aria-sort="none"><button type="button" class="sort-button">Title
+                    <span class="sort-arrow" aria-hidden="true"></span></button></th>
+                <th scope="col" data-sort-key="author" aria-sort="none"><button type="button" class="sort-button">Author
+                    <span class="sort-arrow" aria-hidden="true"></span></button></th>
+                <th scope="col" data-sort-key="pages" aria-sort="none"><button type="button" class="sort-button">Pages
+                    <span class="sort-arrow" aria-hidden="true"></span></button></th>
+                <th scope="col" data-sort-key="tag" aria-sort="none"><button type="button" class="sort-button">Tag <span
+                      class="sort-arrow" aria-hidden="true"></span></button></th>
+                <th scope="col" data-sort-key="dateAdded" aria-sort="none"><button type="button"
+                    class="sort-button">Added <span class="sort-arrow" aria-hidden="true"></span></button></th>
+                <th scope="col" class="actions-column">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="records-body"></tbody>
+          </table>
+        </div>
+        <ul class="record-cards" id="record-cards"></ul>
+        <div class="empty-state" id="vault-empty" hidden>
+          <h2>The vault is empty</h2>
+          <p>Add your first book with the form, or load a set of sample records to explore the app.</p>
+          <div class="button-row">
+            <a class="primary-button" href="add-book.html">Add a book</a>
+            <button type="button" class="ghost-button" data-action="load-sample">Load sample data</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>A product of <a href="https://github.com/gmukire-lang" target="_blank" rel="noopener noreferrer">Grace
+          Mukire</a></p>
+    </footer>
+  </div>
+  <div class="visually-hidden" id="polite-region" role="status" aria-live="polite"></div>
+  <div class="visually-hidden" id="assertive-region" role="alert" aria-live="assertive"></div>
+  <noscript>
+    <p class="noscript-note">This vault needs JavaScript enabled to store and search books.</p>
+  </noscript>
+  <script type="module" src="scripts/app.js"></script>
+</body>
+
+</html>

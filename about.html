@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Learn about the Book and Notes Vault.">
+  <title>About · Book &amp; Notes Vault</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/components.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div class="app-shell">
+    <header class="site-header site-header--app">
+      <div class="brand"><p class="brand-name">Book &amp; Notes Vault</p></div>
+      <button type="button" id="mobile-nav-toggle" class="mobile-nav-toggle ghost-button"
+        aria-controls="site-nav" aria-expanded="false" aria-label="Open navigation">
+        <span aria-hidden="true"></span>
+      </button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="vault.html">Vault</a></li>
+          <li><a href="add-book.html">Add</a></li>
+          <li><a href="settings.html">Settings</a></li>
+          <li><a href="about.html" aria-current="page">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-backdrop" aria-hidden="true"></div>
+      <button type="button" id="theme-toggle" class="ghost-button" aria-pressed="false"
+        aria-label="Switch to dark mode">
+        <span class="theme-icon" aria-hidden="true"></span>
+        <span class="theme-toggle-label">Dark mode</span>
+      </button>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="panel" aria-labelledby="about-title">
+        <h1 id="about-title">About</h1>
+        <p class="section-lead">Why this app exists and how to reach me.</p>
+        <section aria-labelledby="purpose-title">
+          <h2 id="purpose-title">Purpose</h2>
+          <p>
+            The Book and Notes Vault is a small study desk for the books I am working through. I wanted a place that
+            keeps title, author, pages, tag and date in one row, that never asks for a server, and that lets me search
+            with a real regular expression when a plain text box is not enough.
+          </p>
+          <p>
+            Everything is stored in the browser with localStorage and can be exported to JSON at any time. There is no
+            account, no tracking and no network call after the page loads.
+          </p>
+        </section>
+        <section aria-labelledby="built-title">
+          <h2 id="built-title">How it is built</h2>
+          <ul class="plain-list">
+            <li>Semantic HTML5 with landmarks, headings and real labels.</li>
+            <li>Mobile first CSS with a table that turns into cards on small screens.</li>
+            <li>Vanilla ES modules: storage, validators, search, state, ui and app.</li>
+            <li>Regex validation on every field, plus a safe regex search box with highlighted matches.</li>
+          </ul>
+        </section>
+        <section aria-labelledby="contact-title">
+          <h2 id="contact-title">Contact</h2>
+          <ul class="contact-list">
+            <li>GitHub: <a href="https://github.com/gmukire-lang" rel="noopener noreferrer">github.com/gmukire-lang</a></li>
+            <li>Email: <a href="mailto:you@example.com">g.mukire@alustudent.com</a></li>
+          </ul>
+        </section>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>A product of <a href="https://github.com/gmukire-lang" target="_blank" rel="noopener noreferrer">Grace Mukire</a></p>
+    </footer>
+  </div>
+  <div class="visually-hidden" id="polite-region" role="status" aria-live="polite"></div>
+  <div class="visually-hidden" id="assertive-region" role="alert" aria-live="assertive"></div>
+  <noscript><p class="noscript-note">This vault needs JavaScript enabled to store and search books.</p></noscript>
+  <script type="module" src="scripts/app.js"></script>
+</body>
+</html>
